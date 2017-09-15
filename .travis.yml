@@ -113,14 +113,14 @@ script:
   - set -o pipefail;
     case $PLAT in
     macOS)
-      xcodebuild -scheme PromiseKit -quiet -enableCodeCoverage YES build clean SWIFT_VERSION=$SWFT | xcpretty;
+      xcodebuild -scheme PromiseKit -quiet build SWIFT_VERSION=$SWFT -enableCodeCoverage YES | xcpretty;
       xcodebuild -scheme PromiseKit -quiet test;;
     iOS|tvOS)
       open -b com.apple.iphonesimulator --args -CurrentDeviceUDID "$UUID";
-      xcodebuild -scheme PMKFoundation -quiet -destination "$DESTINATION" -enableCodeCoverage YES build clean SWIFT_VERSION=$SWFT | xcpretty;
-      xcodebuild -scheme PMKFoundation -quiet -destination "$DESTINATION" test;;
+      xcodebuild -scheme PromiseKit -quiet -destination "id=$UUID" build SWIFT_VERSION=$SWFT -enableCodeCoverage YES | xcpretty;
+      xcodebuild -scheme PromiseKit -quiet -destination "id=$UUID" test;;
     watchOS)
-      xcodebuild -scheme PMKFoundation -quiet -destination "$DESTINATION" -quiet clean build SWIFT_VERSION=$SWFT | xcpretty;;
+      xcodebuild -scheme PromiseKit -quiet -destination "id=$UUID" -quiet clean build SWIFT_VERSION=$SWFT | xcpretty;;
     *)
       docker-compose run PromiseKit;;
     esac
